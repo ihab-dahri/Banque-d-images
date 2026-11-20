@@ -15,10 +15,17 @@ public class CommandProducer {
     @Inject
     private RandomGalleryCommand randomGalleryCommand;
 
+    @Inject
+    private CustomGalleryCommand customGalleryCommand;
+
     @Produces
     @RequestScoped
     @CurrentCommand
     public Command produceCommand() {
+        String page = request.getParameter("page");
+        if (CustomGalleryCommand.PAGE_SELECT.equals(page) || CustomGalleryCommand.PAGE_CUSTOM.equals(page)) {
+            return customGalleryCommand;
+        }
         return randomGalleryCommand;
     }
 }
